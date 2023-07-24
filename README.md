@@ -1,1 +1,1 @@
-# Odd-Duck-Products
+# odd-duck
