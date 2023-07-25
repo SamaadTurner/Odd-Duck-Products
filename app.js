@@ -1,141 +1,149 @@
-'use strict'; 
+'use strict';
 
-
-// far that keeps track of the number of rounds for voting
+const productsList = [];
 let roundsOfVoting = 25;
-// array that will store all of the pictureList
-let pictureList = [];
+let chartObj = null;
 
-// const image1Element = document.getElementById('image1');
-// const image2Element = document.getElementById('image2');
-// const image3Element = document.getElementById('image3');
-// const pictureContainer = document.getElementById('picture-container');
-// create constructor func
-function Picture(name, src) {
-    this.name = name;
-    this.src = src;
-    this.timesClicked = 0;
-    this.timesSeen = 0;
-    pictureList.push(this);
-  }
+function CreateProduct(name, source){
+  this.name = name;
+  this.source = source;
+  this.timesShown = 0;
+  this.timesClicked = 0;
+}
 
-  // all of the pictureList
-new Picture('bag', 'img/assets/bag.jpg');
-new Picture('banana', 'img/assets/banana.jpg');
-new Picture('bathroom', 'img/assets/bathroom.jpg');
-new Picture('boots', 'img/assets/boots.jpg');
-new Picture('breakfast', 'img/assets/breakfast.jpg');
-new Picture('bubblegum', 'img/assets/bubblegum.jpg');
-new Picture('chair', 'img/assets/chair.jpg');
-new Picture('cthulhu', 'img/assets/cthulhu.jpg');
-new Picture('dog-duck', 'img/assets/dog-duck.jpg');
-new Picture('dragon', 'img/assets/dragon.jpg');
-new Picture('pen', 'img/assets/pen.jpg');
-new Picture('pet-sweep', 'img/assets/pet-sweep.jpg');
-new Picture('scissors', 'img/assets/scissors.jpg');
-new Picture('shark', 'img/assets/shark.jpg');
-new Picture('sweep', 'img/assets/sweep.png');
-new Picture('tauntaun', 'img/assets/tauntaun.jpg');
-new Picture('unicorn', 'img/assets/unicorn.jpg');
-new Picture('water-can', 'img/assets/water-can.jpg');
-new Picture('wine-glass', 'img/assets/wine-glass.jpg');
+productsList.push(new CreateProduct('bag', 'img/assets/bag.jpg'));
+productsList.push(new CreateProduct('banana', 'img/assets/banana.jpg'));
+productsList.push(new CreateProduct('bathroom', 'img/assets/bathroom.jpg'));
+productsList.push(new CreateProduct('boots', 'img/assets/boots.jpg'));
+productsList.push(new CreateProduct('breakfast', 'img/assets/breakfast.jpg'));
+productsList.push(new CreateProduct('bubblegum', 'img/assets/bubblegum.jpg'));
+productsList.push(new CreateProduct('chair', 'img/assets/chair.jpg'));
+productsList.push(new CreateProduct('cthulhu', 'img/assets/cthulhu.jpg'));
+productsList.push(new CreateProduct('dog-duck', 'img/assets/dog-duck.jpg'));
+productsList.push(new CreateProduct('dragon', 'img/assets/dragon.jpg'));
+productsList.push(new CreateProduct('pen', 'img/assets/pen.jpg'));
+productsList.push(new CreateProduct('pet-sweep', 'img/assets/pet-sweep.jpg'));
+productsList.push(new CreateProduct('scissors', 'img/assets/scissors.jpg'));
+productsList.push(new CreateProduct('shark', 'img/assets/shark.jpg'));
+productsList.push(new CreateProduct('sweep', 'img/assets/sweep.png'));
+productsList.push(new CreateProduct('tauntaun', 'img/assets/tauntaun.jpg'));
+productsList.push(new CreateProduct('unicorn', 'img/assets/unicorn.jpg'));
+productsList.push(new CreateProduct('water-can', 'img/assets/water-can.jpg'));
+productsList.push(new CreateProduct('wine-glass', 'img/assets/wine-glass.jpg'));
 
-
-// required selectors for DOM
 let imgEls = document.querySelectorAll('img');
 let voteTrackerEl = document.getElementById('vote-tracker');
 
+console.log('Current Products: ', productsList);
 
-// displayRandompictureList();
-// console.log(pictureList);
-
-// generate random number to pick an product from array
-function generateRandomPicture(){
-  return Math.floor(Math.random() * pictureList.length);
-
+function generateRandomProduct(){
+  return Math.floor(Math.random() * productsList.length);
 }
+
 function renderProducts() {
-  let picture1 = pictureList[generateRandomPicture()];
-  let picture2 = pictureList[generateRandomPicture()];
-  let picture3 = pictureList[generateRandomPicture()];
-  while (picture1.name === picture2.name || picture1.name === picture3.name || picture2.name === picture3.name){
-    picture2 = pictureList[generateRandomPicture()];
-    picture3 = pictureList[generateRandomPicture()];
+  let product1 = productsList[generateRandomProduct()];
+  let product2 = productsList[generateRandomProduct()];
+  let product3 = productsList[generateRandomProduct()];
+  console.log('Products to Render ', imgEls, product1, product2, product3);
+  while (product1.name === product2.name || product1.name === product3.name || product2.name === product3.name){
+    product2 = productsList[generateRandomProduct()];
+    product3 = productsList[generateRandomProduct()];
   }
-  while (imgEls[0].id === picture1.name || imgEls[0].id === picture2.name || imgEls[0].id === picture3.name || imgEls[1].id === picture1.name || imgEls[1].id === picture2.name || imgEls[1].id === picture3.name || imgEls[2].id === picture1.name || imgEls[2].id === picture2.name || imgEls[2].id === picture3.name){
-    picture1 = pictureList[generateRandomPicture()];
-    picture2 = pictureList[generateRandomPicture()];
-    picture3 = pictureList[generateRandomPicture()];
-    while (picture1.name === picture2.name || picture1.name === picture3.name || picture2.name === picture3.name){
-      picture2 = pictureList[generateRandomPicture()];
-      picture3 = pictureList[generateRandomPicture()];
+  console.log('RENDERED IMAGES ', imgEls);
+  console.log('FUTURE IMAGES ', product1.name, product2.name, product3.name);
+  while (imgEls[0].id === product1.name || imgEls[0].id === product2.name || imgEls[0].id === product3.name || imgEls[1].id === product1.name || imgEls[1].id === product2.name || imgEls[1].id === product3.name || imgEls[2].id === product1.name || imgEls[2].id === product2.name || imgEls[2].id === product3.name){
+    product1 = productsList[generateRandomProduct()];
+    product2 = productsList[generateRandomProduct()];
+    product3 = productsList[generateRandomProduct()];
+    while (product1.name === product2.name || product1.name === product3.name || product2.name === product3.name){
+      product2 = productsList[generateRandomProduct()];
+      product3 = productsList[generateRandomProduct()];
     }
   }
-  imgEls[0].src = picture1.src;
-  imgEls[0].id = picture1.name;
-  picture1.timeSeen += 1;
-  imgEls[1].src = picture2.src;
-  imgEls[1].id = picture2.name;
-  picture2.timeSeen += 1;
-  imgEls[2].src = picture3.src;
-  imgEls[2].id = picture3.name;
-  picture3.timeSeen += 1;
-
+  imgEls[0].src = product1.source;
+  imgEls[0].id = product1.name;
+  product1.timesShown += 1;
+  imgEls[1].src = product2.source;
+  imgEls[1].id = product2.name;
+  product2.timesShown += 1;
+  imgEls[2].src = product3.source;
+  imgEls[2].id = product3.name;
+  product3.timesShown += 1;
 }
 
+function resultsButton(){
+  const ul = document.getElementById('results');
+  ul.innerHTML = '';
+  const li = document.createElement('li');
+  if(roundsOfVoting > 0){
+    let text = ('Sorry, you need to vote ' + roundsOfVoting + ' more times to see results!');
+    li.appendChild(document.createTextNode(text));
+    ul.appendChild(li);
+  } else {
+    for(let h = 0; h < productsList.length; h++){
+      let text = (productsList[h].name + ' had ' + productsList[h].timesClicked + ' votes and was seen ' + productsList[h].timesShown + ' times.');
+      let lis = document.createElement('li');
+      lis.appendChild(document.createTextNode(text));
+      ul.appendChild(lis);
+      console.log('loop ran');
+    }
+  }
+}
 
-
-
-
-
-
-// // for loop to display 3 images 25 times 
-// for(let i = 0; i <=roundsOfVoting;i++){
-//     function displayRandompictureList() {
-//         let randomPictureIndex1 = Math.floor(Math.random() * pictureList.length);
-//         let randomPictureIndex2 = Math.floor(Math.random() * pictureList.length);
-//         let randomPictureIndex3 = Math.floor(Math.random() * pictureList.length);
-    
-//         while(randomPictureIndex1 === randomPictureIndex2 === randomPictureIndex3) {
-//         randomPictureIndex2 = Math.floor(Math.random() * pictureList.length);
-//         }
-    
-//         image1Element.src = pictureList[randomPictureIndex1].src;
-//         image1Element.alt = pictureList[randomPictureIndex1].name;
-//         image2Element.src = pictureList[randomPictureIndex2].src;
-//         image2Element.alt = pictureList[randomPictureIndex2].name;
-//         image3Element.src = pictureList[randomPictureIndex3].src;
-//         image3Element.alt = pictureList[randomPictureIndex3].name;
-//         pictureList[randomPictureIndex1].timesSeen++;
-//         pictureList[randomPictureIndex2].timesSeen++;
-//     }
-// }
-
-  // code that runs when a user has voted on a picture
- // handles the event of which picture was clicked on
 function handleClick(event){
   let imgClicked = event.target.id;
-  pictureList.forEach(image => {
+  productsList.forEach(image => {
     if(image.name === imgClicked){
       image.timesClicked += 1;
     }
   });
+  console.log('Updated Products: ', productsList);
   if(roundsOfVoting > 1){
     renderProducts();
     roundsOfVoting--;
   } else {
     voteTrackerEl.removeEventListener('click', handleClick);
+    chartObj = drawChart();
     roundsOfVoting--;
-    writeData('products', pictureList);
   }
 }
-// adds the click listener for the above function
+
+renderProducts();
 voteTrackerEl.addEventListener('click', handleClick);
 
-
-// calls the function to display photos that dont match and are new
-renderProducts();
-// a function to write votes/seen values to local storage
-function writeData(key, value) {
-  localStorage.setItem(key, JSON.stringify(value));
+function drawChart() {
+  let labels = [];
+  let timesShownValues = [];
+  let timesClickedValues = [];
+  productsList.forEach(product => {
+    labels.push(product.name);
+    timesShownValues.push(product.timesShown);
+    timesClickedValues.push(product.timesClicked);
+  });
+  return new Chart(canvasEl, {
+    type: 'bar',
+    data: {
+      labels: labels,
+      datasets: [{
+        label: 'Times Shown',
+        data: timesShownValues,
+        borderWidth: 1,
+      }, {
+        label: 'Times Clicked',
+        data: timesClickedValues,
+        borderWidth: 1,
+      }]
+    },
+    options: {
+      scales: {
+        y: {
+          beginAtZero: true
+        }
+      }
+    }
+  });
 }
+
+const canvasEl = document.getElementById('chart');
+
+
