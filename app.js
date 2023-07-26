@@ -1,15 +1,17 @@
 'use strict';
 
-const productsList = [];
+let productsList = [];
 let roundsOfVoting = 25;
 let chartObj = null;
 
+// create constructor function
 function CreateProduct(name, source){
   this.name = name;
   this.source = source;
   this.timesShown = 0;
   this.timesClicked = 0;
 }
+
 
 productsList.push(new CreateProduct('bag', 'img/assets/bag.jpg'));
 productsList.push(new CreateProduct('banana', 'img/assets/banana.jpg'));
@@ -31,26 +33,24 @@ productsList.push(new CreateProduct('unicorn', 'img/assets/unicorn.jpg'));
 productsList.push(new CreateProduct('water-can', 'img/assets/water-can.jpg'));
 productsList.push(new CreateProduct('wine-glass', 'img/assets/wine-glass.jpg'));
 
+// required selectors for DOM
 let imgEls = document.querySelectorAll('img');
 let voteTrackerEl = document.getElementById('vote-tracker');
 
-console.log('Current Products: ', productsList);
-
+// generate random number to pick an product from array
 function generateRandomProduct(){
   return Math.floor(Math.random() * productsList.length);
 }
 
+// generate products that aren't the exact same product & don't match the previous products
 function renderProducts() {
   let product1 = productsList[generateRandomProduct()];
   let product2 = productsList[generateRandomProduct()];
   let product3 = productsList[generateRandomProduct()];
-  console.log('Products to Render ', imgEls, product1, product2, product3);
   while (product1.name === product2.name || product1.name === product3.name || product2.name === product3.name){
     product2 = productsList[generateRandomProduct()];
     product3 = productsList[generateRandomProduct()];
   }
-  console.log('RENDERED IMAGES ', imgEls);
-  console.log('FUTURE IMAGES ', product1.name, product2.name, product3.name);
   while (imgEls[0].id === product1.name || imgEls[0].id === product2.name || imgEls[0].id === product3.name || imgEls[1].id === product1.name || imgEls[1].id === product2.name || imgEls[1].id === product3.name || imgEls[2].id === product1.name || imgEls[2].id === product2.name || imgEls[2].id === product3.name){
     product1 = productsList[generateRandomProduct()];
     product2 = productsList[generateRandomProduct()];
@@ -71,24 +71,7 @@ function renderProducts() {
   product3.timesShown += 1;
 }
 
-function resultsButton(){
-  const ul = document.getElementById('results');
-  ul.innerHTML = '';
-  const li = document.createElement('li');
-  if(roundsOfVoting > 0){
-    let text = ('Sorry, you need to vote ' + roundsOfVoting + ' more times to see results!');
-    li.appendChild(document.createTextNode(text));
-    ul.appendChild(li);
-  } else {
-    for(let h = 0; h < productsList.length; h++){
-      let text = (productsList[h].name + ' had ' + productsList[h].timesClicked + ' votes and was seen ' + productsList[h].timesShown + ' times.');
-      let lis = document.createElement('li');
-      lis.appendChild(document.createTextNode(text));
-      ul.appendChild(lis);
-      console.log('loop ran');
-  }
-}
-
+// handles the event of which product was clicked on
 function handleClick(event){
   let imgClicked = event.target.id;
   productsList.forEach(image => {
@@ -96,7 +79,6 @@ function handleClick(event){
       image.timesClicked += 1;
     }
   });
-  console.log('Updated Products: ', productsList);
   if(roundsOfVoting > 1){
     renderProducts();
     roundsOfVoting--;
@@ -104,12 +86,37 @@ function handleClick(event){
     voteTrackerEl.removeEventListener('click', handleClick);
     chartObj = drawChart();
     roundsOfVoting--;
+    writeData('products', productsList);
   }
 }
 
-renderProducts();
+// adds the click listener for the above function
 voteTrackerEl.addEventListener('click', handleClick);
 
+// this makes sure the localStorage aren't empty, and if they are doesn't load them from last load, which was causing page issues if you didn't have localStorage
+if (readData('products') === null){
+  '';
+} else {
+  readData('products');
+}
+
+// calls the function to display photos that dont match and are new
+renderProducts();
+
+// a function to write votes/seen values to local storage
+function writeData(key, value) {
+  localStorage.setItem(key, JSON.stringify(value));
+}
+
+// a function to read votes/seen values to local storage
+function readData(key){
+  return JSON.parse(localStorage.getItem(key));
+}
+
+// getting elements again, this time for the chart
+const canvasEl = document.getElementById('chart');
+
+// this function intakes all the values and outputs them into arrays that the chart can use for a dataset and then creates the chart with those datasets
 function drawChart() {
   let labels = [];
   let timesShownValues = [];
@@ -120,6 +127,7 @@ function drawChart() {
     timesClickedValues.push(product.timesClicked);
   });
   return new Chart(canvasEl, {
+    animationEnabled: true,
     type: 'bar',
     data: {
       labels: labels,
@@ -134,6 +142,7 @@ function drawChart() {
       }]
     },
     options: {
+      indexAxis: 'y',
       scales: {
         y: {
           beginAtZero: true
@@ -142,5 +151,3 @@ function drawChart() {
     }
   });
 }
-}
-const canvasEl = document.getElementById('chart');

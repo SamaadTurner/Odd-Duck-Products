@@ -18,30 +18,28 @@
     <main>
         <section class="row">
             <section class="column" id="buttonAndResults">
-                <button onclick="resultsButton()" id="buttonResults">
-                    <p id="buttonP">Results</p>
-                </button>
-                <ul id=results>
+                <button onclick="resultsButton()" id="buttonResults">Results</button>
+                <ul id="results">
+                    <!-- Add list items for the results -->
                 </ul>
             </section>
             <section class="column" id="imgAndParagraph">
                 <section id="vote-tracker">
-                    <img>
-                    <img>
-                    <img>
+                    <img alt="Image 1">
+                    <img alt="Image 2">
+                    <img alt="Image 3">
                 </section>
                 <section>
-                    <p>
-                    </p>
+                    <p>Cool Products.</p>
                 </section>
                 <section>
-                    <canvas id="chart" height="300" width="1200"></canvas>
+                    <canvas id="chart" height="300" width="1200" aria-label="Chart description"></canvas>
                 </section>
             </section>
         </section>
     </main>
     <footer>
-        <p></p>
+        <p>&copy; 2023 Odd Duck Products</p>
     </footer>
     <script src="app.js"></script>
 </body>
