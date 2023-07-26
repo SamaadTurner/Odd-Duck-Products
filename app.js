@@ -86,7 +86,6 @@ function resultsButton(){
       lis.appendChild(document.createTextNode(text));
       ul.appendChild(lis);
       console.log('loop ran');
-    }
   }
 }
 
@@ -143,7 +142,5 @@ function drawChart() {
     }
   });
 }
-
+}
 const canvasEl = document.getElementById('chart');
-
-
